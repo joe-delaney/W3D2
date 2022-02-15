@@ -7,7 +7,9 @@ class Card
 
   def to_s
     if @face_up 
-      @face_value 
+      @face_value
+    else
+      " "
     end
   end
   
