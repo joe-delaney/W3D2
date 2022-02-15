@@ -32,8 +32,10 @@ class Game
         temp = gets.chomp.split(" ")
       end
       make_guess([temp[0].to_i, temp[1].to_i])
-
     end
+    system("clear")
+    @board.render
+    p "YOU WON!"
   end
 
   def make_guess(pos)
@@ -41,10 +43,7 @@ class Game
       @previous_guess = @board[pos]
       @board.reveal(pos)
     else
-      if @previous_guess == @board[pos]
-        @board.reveal(pos)
-      else
-        @board.reveal(pos)
+      if !(@previous_guess == @board.reveal(pos))
         system('clear')
         @board.render
         p "Try Again."
@@ -57,5 +56,5 @@ class Game
     end
   end
 end
-game = Game.new()
+game = Game.new(2)
 game.play()
