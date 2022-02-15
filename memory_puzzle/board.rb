@@ -1,8 +1,12 @@
 require_relative 'card.rb'
 
 class Board
-  def initialize(size = 4)
+  def initialize(size=4)
     @grid = Array.new(size) {Array.new(size, nil)} 
+  end
+
+  def size
+    @grid.length
   end
 
   def populate
@@ -51,9 +55,21 @@ class Board
     end
   end
 
+  def won?
+    @grid.each { |row| return false if row.any?{|card| !card.face_up}}
+    return true
+  end
+
+  def reveal(guess_pos)
+    row = guess_pos[0]
+    col = guess_pos[1]
+    return @grid[row][col].reveal 
+  end
+
 end
 
-board = Board.new 
-board.populate
-board.render
-
+# board = Board.new 
+# board.populate
+# board.render
+# p board.reveal([0,1])
+# board.render
