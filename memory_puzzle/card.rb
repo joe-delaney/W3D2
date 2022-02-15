@@ -2,7 +2,7 @@ class Card
 
   def initialize(face_value)
     @face_value = face_value
-    @face_up = true
+    @face_up = false
   end
 
   def to_s
