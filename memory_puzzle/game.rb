@@ -8,6 +8,7 @@ class Game
     @board.populate
     @previous_guess = nil
     @player = player
+    @player.set_up(@board.size)
   end
 
   def valid?(guess)
@@ -47,6 +48,7 @@ class Game
     if @previous_guess.nil?
       @previous_guess = @board[pos]
       @board.reveal(pos)
+      @player.receive_revealed_card(pos, @board[pos])
     else
       if !(@previous_guess == @board.reveal(pos))
         system('clear')
@@ -61,5 +63,5 @@ class Game
     end
   end
 end
-game = Game.new(HumanPlayer.new)
+game = Game.new(ComputerPlayer.new)
 game.play()

@@ -6,4 +6,8 @@ class HumanPlayer
   def get_pos()
       temp = gets.chomp.split(" ")
   end
+
+  def set_up(size)
+    #do nothing
+  end
 end
