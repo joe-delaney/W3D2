@@ -15,19 +15,45 @@ class Game
     if guess[0].to_i.to_s != guess[0] ||  guess[1].to_i.to_s != guess[1] 
       return false
     end
-    if (guess[0].to_i < 0 && guess[0].to_i >= @board.size) || (guess[1].to_i < 0 && guess[1].to_i >= @board.size)
+    if (guess[0].to_i < 0 || guess[0].to_i >= @board.size) || (guess[1].to_i < 0 || guess[1].to_i >= @board.size)
       return false
     end
     return true
   end
+
   def play()
     while !@board.won?
+      system('clear')
       @board.render
       p "provide a guess in the form of: 0 1"
       temp = gets.chomp.split(" ")
-      if !valid?(temp)
-        self.play()
+      while !valid?(temp)
+        p "Invalid guess. Guess in the form of: 0 1"
+        temp = gets.chomp.split(" ")
       end
+      make_guess([temp[0].to_i, temp[1].to_i])
+
+    end
+  end
+
+  def make_guess(pos)
+    if @previous_guess.nil?
+      @previous_guess = @board[pos]
+      @board.reveal(pos)
+    else
+      if @previous_guess == @board[pos]
+        @board.reveal(pos)
+      else
+        @board.reveal(pos)
+        system('clear')
+        @board.render
+        p "Try Again."
+        sleep(1.5)
+        system('clear')
+        @previous_guess.hide
+        @board[pos].hide
+      end
+      @previous_guess = nil
     end
   end
 end
