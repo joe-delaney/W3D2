@@ -34,11 +34,13 @@ class Game
       @board.render
       @player.prompt
       pos = @player.get_pos
+      p pos
       while !valid?(pos)
         p "Invalid guess. Guess in the form of: 0 1"
         pos = @player.get_pos
       end
-      #make_guess([pos[0].to_i, pos[1].to_i])
+      sleep(2)
+      p pos
       make_guess([pos[0].to_i, pos[1].to_i])
     end
     system("clear")
@@ -47,10 +49,11 @@ class Game
   end
 
   def make_guess(pos)
+    @player.receive_revealed_card(pos, @board[pos], false)
     if @previous_guess.nil?
       @previous_guess = @board[pos]
       @board.reveal(pos)
-      @player.receive_revealed_card(pos, @board[pos], false)
+      #@player.receive_revealed_card(pos, @board[pos], false)
     else
       if !(@previous_guess == @board.reveal(pos))
         system('clear')
@@ -58,7 +61,7 @@ class Game
         p "Try Again."
         sleep(1.5)
         system('clear')
-        @player.receive_revealed_card(pos, @board[pos], true)
+        #@player.receive_revealed_card(pos, @board[pos], true)
         @previous_guess.hide
         @board[pos].hide
       end

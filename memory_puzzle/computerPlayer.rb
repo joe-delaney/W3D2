@@ -5,6 +5,7 @@ class ComputerPlayer
     @available_positions = []
     @first_guess = true
     @revealed_card = nil
+    @last_position = nil
   end
 
   def set_up(size)
@@ -24,11 +25,13 @@ class ComputerPlayer
 
     if @first_guess
       @known_positions.each do |face_value, positions|
-        return_position = positions if positions.length == 2
+        return_position = positions[0] if positions.length == 2
       end
     else
       if @known_positions.has_key?(@revealed_card.to_s)
-        return_position = @known_positions[@revealed_card.to_s]
+        if @last_position != @known_positions[@revealed_card.to_s][0]
+          return_position = @known_positions[@revealed_card.to_s][0]
+        end
       end
     end
 
@@ -39,14 +42,15 @@ class ComputerPlayer
   end
 
   def receive_revealed_card(pos, card, guess)
-    @known_positions[card.to_s] << pos
+    @known_positions[card.reveal] << [pos[0].to_s, pos[1].to_s]
+    p @known_positions[card.reveal]
     @first_guess = guess
     if @first_guess
       @revealed_card = nil
+      @last_position = nil
     else
       @revealed_card = card 
+      @last_position = [pos[0].to_s, pos[1].to_s]
     end 
   end
-  
-
 end
